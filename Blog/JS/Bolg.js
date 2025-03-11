@@ -8,8 +8,8 @@ let v= new Vue({
                   title: '个人信息',
                   icon: 'el-icon-location',
                   children: [
-                      { index: '1-1',   link: 'personalblogpage/index.html',title: '我的空间' },
-                      { index: '1-2', link: 'personalblogpage/HomePage.html',title: '个人主页' }
+                      { index: '1-1',   link: 'Bolg/personalblogpage/index.html',title: '我的空间' },
+                      { index: '1-2', link: 'Bolg/personalblogpage/HomePage.html',title: '个人主页' }
                   ]
               },
               {
@@ -35,7 +35,7 @@ let v= new Vue({
 
 // ============================================asdasda==================================================
         isCollapse: false,
-          HomePagepath: 'personalblogpage/HomePage.html',
+          HomePagepath: 'Bolg/personalblogpage/HomePage.html',
         flakes: [],
         url: '../imgs/touxiang.jpg',
         progresses: [
