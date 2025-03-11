@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <!-- import CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <link rel="stylesheet" href="../css/Blog.css">
+
+  <link rel="stylesheet" href="../JS/Blog.js">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Personal Blog</title>
+</head>
+<style></style>
+<body>
+<!--雪花粒子-->
+<div id="app">
+
+  <el-container class="custom-background">
+    <template>
+      <div>
+        <div class="snowflake" v-for="flake in flakes" :key="flake.id" :style="flake.style"></div>
+      </div>
+    </template>
+    <!--网页头部代码-->
+    <el-header style="background-color: rgba(0, 0, 0, 0.7);line-height: 20px;text-align: center;">
+      <!--我的主页--><!---->
+      <el-button
+              icon="el-icon-house"
+              style="margin-top: 10px; float: left; font-size: 12px"
+              round
+              @click="goToSpacePage">
+        我的空间
+      </el-button>
+      <el-avatar :src="url" style="float: right;margin-top: 10px;"></el-avatar>
+      <!--个人博客文字-->
+      <h1 style="color: white">ZHIMAOHH</h1>
+      <!--博客头像-->
+
+    </el-header>
+
+
+
+
+    <!--网页中部代码-->
+    <el-main>
+
+
+
+   <!-- 左侧菜单导航目录栏 -->
+   <el-radio-group v-model="isCollapse" style="margin-bottom: 20px;">
+    <el-radio-button :label="false">展开</el-radio-button>
+    <el-radio-button :label="true">收起</el-radio-button>
+  </el-radio-group>
+
+      <el-menu
+              default-active="1-4-1"
+              class="el-menu-vertical-demo"
+              @open="handleOpen"
+              @close="handleClose"
+              :collapse="isCollapse"
+              :router="true">
+        <template v-for="(item, index) in menuItems">
+          <el-submenu v-if="item.children" :index="item.index">
+            <template slot="title">
+              <i :class="item.icon"></i>
+              <span slot="title">{{ item.title }}</span>
+            </template>
+            <el-menu-item
+                    v-for="child in item.children"
+                    :key="child.index"
+                    :index="child.index"
+                    @click="navigateTo(child.link)">
+              {{ child.title }}
+            </el-menu-item>
+          </el-submenu>
+          <el-menu-item v-else :index="item.index" @click="navigateTo(item.link)">
+            <i :class="item.icon"></i>
+            <span slot="title">{{ item.title }}</span>
+          </el-menu-item>
+        </template>
+      </el-menu>
+
+
+
+      <!--卡片头部-->
+      <el-card class="custom-card" shadow="hover">
+        <div slot="header" class="card-header">
+          Personal Information
+        </div>
+        <!--卡片左边代码-->
+        <el-row >
+          <el-col :span="12">
+            <div class="left-content">
+              <img src="../imgs/b5.jpg" alt="Image" class="card-image">
+              <el-col span="4" style="margin-top: 20px;margin-left: 100px">
+                <el-avatar :size="80"><img src="../imgs/touxiang.jpg"></el-avatar>
+              </el-col>
+              <el-col span="12" style="margin-top: 20px;margin-left: 10px">
+                <br style="font-size: 20px">ZHIMAO<p style="font-size: 12px">——读书百遍，其义自见</p></p>
+              </el-col>
+
+            </div>
+          </el-col>
+          <!--卡片右边代码-->
+          <el-col :span="12">
+            <div class="right-content">
+              <el-descriptions direction="vertical" :column="4" border :size="'mini'">
+                <el-descriptions-item label="QQ">3237888943</el-descriptions-item>
+                <el-descriptions-item label="手机号">13106580113</el-descriptions-item>
+                <el-descriptions-item label="小破站" :span="2">448974368</el-descriptions-item>
+                <el-descriptions-item label="卫星">
+                  ZHIMAO19307
+                </el-descriptions-item>
+                <el-descriptions-item label="邮箱地址">3237888943@qq.com</el-descriptions-item>
+              </el-descriptions>
+            </div>
+            <!--进度条-->
+            <template>
+              <div style="font-family: '微軟正黑體 Light'; font-size: 12px; margin-left: 20px; display: flex; flex-wrap: wrap;">
+                <p>兴趣爱好和技能掌握</p>
+                <div class="progress-row"
+                     v-for="(row, rowIndex) in chunkedProgresses"
+                     :key="rowIndex"
+                     style="display: flex; justify-content: space-between;margin-bottom: 15px;">
+
+                  <div class="progress-item" v-for="(progress, index) in row" :key="index">
+                    <span class="progress-name">{{ progress.name }}: {{ progress.percentage }}%</span>
+
+                    <el-progress
+                            :percentage="progress.current"
+                            :stroke-width="8"
+                            class="custom-progress"
+                            status="success"
+                            :format="formatProgress"
+                            :show-text="false">
+                      <template #default="{ percentage }">
+                        <span class="custom-text">{{ percentage }}%</span>
+                      </template>
+                    </el-progress>
+
+                  </div>
+                </div>
+              </div>
+            </template>
+
+          </el-col>
+
+        </el-row>
+      </el-card>
+
+      <template>
+        <div class="image-grid-container">
+          <el-row type="flex" justify="space-between" align="middle">
+            <el-col :span="6" v-for="(img, index) in images" :key="index" class="image-col">
+              <el-popover
+                      placement="top"
+                      width="200"
+                      trigger="hover"
+                      :ref="'popover' + index">
+                <div class="image-wrapper" slot="reference">
+                  <img :src="img.src" :alt="img.alt" class="round-image" />
+                </div>
+                <div class="popover-content">
+                  <img :src="img.popoverSrc" alt="Popover Image" class="popover-image" />
+                  <p>{{ img.popoverText }}</p>
+                </div>
+              </el-popover>
+            </el-col>
+          </el-row>
+        </div>
+      </template>
+
+    </el-main>
+
+
+    <!--网页尾部代码-->
+
+      <el-footer style="background-color:rgba(0, 0, 0, 0.7);
+      font-size: 12px ;
+      color:rgba(255, 255, 255, 0.6)">
+        页面设计 202200310009 邓佳俊 | WEB客户端开发期末作业
+
+      </el-footer>
+
+
+  </el-container>
+</div>
+</body>
+<!-- import Vue before Element -->
+<script src="https://unpkg.com/vue@2/dist/vue.js"></script>
+
+<!-- import JavaScript -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script src="../JS/Bolg.js"></script>
+
+
+<!-- 在script部分添加format方法 -->
+
+
+</html>
