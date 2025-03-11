@@ -1,0 +1,114 @@
+/* 头部时设计样式代码 */
+.custom-background {
+    background-image: url(../imgs/b1.jpg);
+    background-size: cover; /* 图片将被缩放以完全覆盖整个容器，可能会裁剪部分图片 */
+    background-position: center; /* 将背景图片放置在容器的中心位置 */
+    background-repeat: no-repeat; /* 禁止背景图片重复 */
+    /* 设置容器高度为浏览器窗口高度 */
+    height: 100vh;
+
+  }
+  .custom-link {
+    text-decoration: none; /* 移除下划线 */
+    color: #757575; /* 初始颜色 */
+  }
+
+  .custom-link:hover {
+    color: #0092DF; /* 鼠标悬停时的颜色 */
+  }
+  /* 悬浮卡片样式代码 */
+  .floating-card {
+    position: fixed; /* 悬浮定位 */
+    top: 80px; /* 距离顶部20px */
+    left: 20px; /* 距离左侧20px */
+    z-index: 1000; /* 设置层叠顺序，确保卡片在其他内容之上 */
+    width: 250px; /* 卡片宽度 */
+    border-radius: 4px; /* 圆角 */
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1); /* 阴影 */
+    background-color: #fff; /* 背景颜色 */
+    padding: 20px; /* 内边距 */
+  }
+
+  .close-btn {
+    float: right; /* 图标浮动到右侧 */
+    margin-top: -10px; /* 微调图标位置，使其与header文本垂直对齐 */
+    cursor: pointer; /* 鼠标变为小手图标，表示可点击 */
+  }
+
+  /* 页面中部代码*/
+
+  .custom-card {
+    width: 1000px;
+    height: 600px;
+    margin: 0 auto;
+    border-radius: 20px;
+  }
+  .highlight-title {
+    font-weight: bold;
+    font-size: 14px;
+  }
+
+  .highlight-content {
+
+    font-size: 12px;
+  }
+  /* 宝藏收藏页面*/
+  .treasure-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* 如果你想要整个内容垂直居中，可以改为center */
+    padding: 10px;
+    box-sizing: border-box;
+    font-size: 14px;
+  }
+
+  .software-name {
+    /* 添加下间距，例如5px */
+    margin-bottom: 10px;
+  }
+
+  .install-environment {
+    margin-bottom: 10px;
+    /* 如果需要，你也可以添加上间距，但在这个例子中，由于我们使用了margin-bottom在上一个div，所以可以不需要 */
+  }
+  /* 参与项目页面 */
+  .carousel-image-container {
+    border-radius: 20px;
+    overflow: hidden;
+    height: 100%; /* 确保与carousel-item的高度一致 */
+    position: relative; /* 如果需要的话，用于定位子元素 */
+  }
+
+  .carousel-image {
+    width: 100%; /* 宽度设置为100%，使其覆盖容器 */
+    height: 100%; /* 高度设置为100%，使其覆盖容器 */
+    object-fit: cover; /* 保持图片的纵横比同时填充元素的内容框 */
+    display: block; /* 消除图片底部的默认间隙（如果需要的话） */
+  }
+
+  /* 雪花粒子代码 */
+  @keyframes fall {
+    0% { transform: translateY(0px); }
+    100% { transform: translateY(100vh); }
+  }
+  .snowflake {
+    position: fixed;
+    top: -10px;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    background-color: #fff;
+    border-radius: 50%;
+    opacity: 0.8;
+    animation: fall 10s infinite linear;
+  }
+
+
+
+
+  .el-footer {
+    background-color: #B3C0D1;
+    color: #333;
+    text-align: center;
+    line-height: 60px;
+  }

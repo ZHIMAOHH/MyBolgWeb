@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <!-- import CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <link rel="stylesheet" href="../css/HomePage.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>My Space</title>
+</head>
+<style></style>
+<body>
+
+<div id="app">
+
+
+
+  <el-container class="custom-background">
+
+    <!--雪花粒子-->
+    <template>
+      <div>
+        <div class="snowflake" v-for="flake in flakes" :key="flake.id" :style="flake.style"></div>
+      </div>
+    </template>
+
+
+    <!--网页头部代码-->
+<el-header style="background-color: rgba(0, 0, 0, 0.7);line-height: 20px;text-align: center;">
+      <el-button
+        icon="el-icon-back"
+        style="margin-top: 10px; float: left; font-size: 12px"
+        round
+        @click="goToBlogPage">
+   返回主页
+</el-button>
+
+
+      <!--博客头像-->
+      <el-avatar :src="urr" style="float: right;margin-top: 10px;"></el-avatar>
+      <!--个人博客文字-->
+      <h1 style="color: white">My Space</h1>
+
+    </el-header>
+
+
+
+
+    <!--网页中部代码-->
+    <el-container class="custom-main">
+
+      <!-- 悬浮卡片 -->
+      <el-card class="floating-card" v-if="showCard">
+        <div slot="header" class="clearfix">
+          页面提醒：
+          <el-button type="text" class="close-btn" @click="closeCard">
+            <el-icon name="close" :color="isHovering ? 'blue' : ''"></el-icon>
+          </el-button>
+        </div>
+        <div>
+          因制作者太懒！！！
+          <p>个人日志和留言信箱暂未开放</p>
+        </div>
+      </el-card>
+
+      <el-main>
+        <!-- 卡片开始 -->
+        <el-card class="custom-card">
+          <!-- 导航菜单开始 -->
+          <div>
+            <el-menu
+                    style="margin: 0 auto"
+                    mode="horizontal"
+                    background-color="rgba(255, 255, 255, 0.95)"
+                    text-color="rgba(0, 0, 0, 0.7)"
+                    active-text-color="#757575"
+                    @select="handleSelect">
+              <el-menu-item index="1">店铺好课</el-menu-item>
+              <el-menu-item index="2">参与项目</el-menu-item>
+              <el-menu-item index="3">个人日志</el-menu-item>
+              <el-menu-item index="4">宝藏收藏</el-menu-item>
+              <el-menu-item index="5">留言信箱</el-menu-item>
+              <el-menu-item index="6">好图优选</el-menu-item>
+            </el-menu>
+          </div>
+          <!-- 导航菜单结束 -->
+
+          <div v-if="currentPage === '1'">
+
+            <el-row style="margin-top: 10px">
+              <el-col :span="12" style="background-color: #F5F5F5; padding: 20px; height: 490px; border-radius: 20px 0 0 20px;font-family: '微軟正黑體 Light'">
+                <el-row :gutter="20">
+                  <el-col :span="12" v-for="(highlight, index) in highlights" :key="index" style="margin-bottom: 20px;">
+                    <el-card :body-style="{ padding: '20px', height: '80px' }"style="border-radius: 20px" shadow="hover">
+                      <div class="highlight-title">{{ highlight.title }}</div>
+                      <div class="highlight-content">{{ highlight.content }}</div>
+                    </el-card>
+
+                  </el-col>
+                  <el-card shadow="hover" style="border-radius: 20px">
+                    点击下方按钮加入学习吧—距离成功只差一步！
+                    <i class="el-icon-medal-1" style="float: right;margin-top: 5px"></i>
+                  </el-card>
+
+                  <template>
+                    <div style="margin-top: 20px;padding: 20px">
+                      <!-- 触发按钮 -->
+                      <el-button type="primary" @click="dialogVisible = true">加入学习</el-button>
+
+                      <!-- 对话框组件 -->
+                      <el-dialog
+                              title="扫描加入学习群"
+                              :visible.sync="dialogVisible"
+                              :width="dialogWidth"
+                              :before-close="handleClose">
+                      <span>
+        <!-- 图片展示，宽度设置为100%以匹配对话框宽度 -->
+        <img src="../imgs/image2.png" style="width: 100%;">
+      </span>
+                      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+      </span>
+                      </el-dialog>
+                    </div>
+                  </template>
+
+                </el-row>
+              </el-col>
+
+
+
+              <el-col :span="12" style="background-color: #f9f9f9; padding: 20px; height: 490px; border-radius: 0 20px 20px 0">
+                <el-row :gutter="20" style="height: 100%;">
+                  <el-col :span="24" v-for="(img, index) in block2Images" :key="img" style="padding: 0 0 20px 0;">
+                    <el-image
+                            :src="img"
+                            style="width: 100%; height: auto; max-height: calc(100% / 3 - 20px); cursor: pointer; border-radius: 10px; display: block;"
+                            fit="contain"
+                            @click="handlePreview(img)">
+                    </el-image>
+                  </el-col>
+                </el-row>
+              </el-col>
+            </el-row>
+
+            <!-- 图片放大预览的模态框 -->
+            <el-dialog :visible.sync="previewVisible" width="80%">
+              <img :src="previewImage" alt="Preview Image" style="width: 100%; height: auto;">
+            </el-dialog>
+          </div>
+
+          <div v-if="currentPage === '2'">
+
+            <el-card style="margin-top: 20px; height: 480px; background-color: #F5F5F5; border-radius: 20px">
+              <div style="font-family: '微軟正黑體 Light'">页面制作</div>
+              <el-carousel :interval="4000" type="card" height="180px">
+                <el-carousel-item v-for="(lun, index) in booo" :key="index">
+                  <div class="carousel-image-container" style="border-radius: 20px; overflow: hidden; height: 100%;">
+                    <img :src="lun" alt="" class="carousel-image" style="width: 100%; height: 100%; object-fit: cover;">
+                  </div>
+                </el-carousel-item>
+              </el-carousel>
+              <div style="font-family: '微軟正黑體 Light'">建模作品</div>
+              <el-carousel :interval="4000" type="card" height="180px">
+                <el-carousel-item v-for="(lun, index) in bool" :key="index">
+                  <div class="carousel-image-container" style="border-radius: 20px; overflow: hidden; height: 100%;">
+                    <img :src="lun" alt="" class="carousel-image" style="width: 100%; height: 100%; object-fit: cover;">
+                  </div>
+                </el-carousel-item>
+              </el-carousel>
+            </el-card>
+
+
+          </div>
+
+          <div v-if="currentPage === '3'">暂未开放</div>
+
+          <!-- 宝藏收藏页面内容开始 -->
+          <div v-if="currentPage === '4'">
+            <el-row :gutter="10" style="margin-top: 20px">
+              <el-col v-for="(item, index) in treasureList" :key="index" :span="6" style="margin-bottom: 10px">
+                <el-card class="treasure-card" style="height: 150px; border-radius: 10px;">
+                  <div class="software-name">{{ item.softwareName }}</div>
+                  <div class="install-environment">{{ item.installEnvironment }}</div>
+                  <div><a :href="item.downloadLink" target="_blank">地址链接</a></div>
+                </el-card>
+              </el-col>
+            </el-row>
+          </div>
+
+          <!-- 宝藏收藏页面内容结束 -->
+
+          <div v-if="currentPage === '5'">暂未开放</div>
+
+          <div v-if="currentPage === '6'">
+            <el-row :gutter="10" style="margin-top: 20px">
+              <el-col :span="6" v-for="img in images" :key="img" :style="{ height: '150px', marginBottom: '10px' }">
+                <el-image :src="img" style="width: 100%; height: 100%; cursor: pointer;border-radius: 20px" @click="handlePreview(img)" fit="fill">
+                </el-image>
+              </el-col>
+            </el-row>
+            <!-- 大图预览对话框 -->
+            <el-dialog :visible.sync="previewVisible">
+              <img width="100%" :src="previewImage" alt="预览图片">
+            </el-dialog>
+          </div>
+
+          <!-- 页面内容结束 -->
+
+        </el-card>
+        <!-- 卡片结束 -->
+      </el-main>
+
+
+
+    </el-container>
+
+    <!--网页尾部代码-->
+
+      <el-footer style="background-color:rgba(0, 0, 0, 0.7);
+      font-size: 12px ;
+      color:rgba(255, 255, 255, 0.6)">
+        页面设计 202200310009邓佳俊　联系电话: 13106580113  13420425026　请别抄袭或改名字我敲代码都要晕过去了  WEB客户端开发期末作业
+
+      </el-footer>
+
+
+
+
+
+  </el-container>
+</div>
+</body>
+<!-- import Vue before Element -->
+<script src="https://unpkg.com/vue@2/dist/vue.js"></script>
+<!-- import JavaScript -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script src="../JS/HomePage.js"></script>
+</html>
