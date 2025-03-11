@@ -2,7 +2,7 @@ let v= new Vue({
     el: '#app',
     data: function() {
       return {
-        BlogPagepath: 'Bolg/Personalblogpage/index.html',
+        BlogPagepath: '../Personalblogpage/index.html',
 
         showCard: true, // 控制卡片是否显示
         isHovering: false, // 控制图标颜色
@@ -19,7 +19,7 @@ let v= new Vue({
         tabPosition: 'left',
         flakes: [],
         url: '../imgs/image2.png',
-        path: 'Bolg/Personalblogpage/index.html',
+        path: '../Personalblogpage/index.html',
         currentPage: '1', // 默认显示页面1的内容
 
         treasureList: [ // 宝藏收藏列表
